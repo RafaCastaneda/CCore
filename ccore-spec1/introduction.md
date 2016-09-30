@@ -14,105 +14,99 @@ The rest of this chapter describes the essential features of the CCore language.
 
 ## Hello world
 
-The "Hello, World" program is traditionally used to introduce a programming language. Here it is in C#:
+The "Hello, World" program is traditionally used to introduce a programming language. Here it is in CCore:
 
 ```csharp
-using System;
+using System::Console;
 
-class Hello
-{
-    static void Main() {
-        Console.WriteLine("Hello, World");
-    }
+void Main() {
+    WriteLine("Hello, World");
 }
 ```
 
-C# source files typically have the file extension `.cs`. Assuming that the "Hello, World" program is stored in the file `hello.cs`, the program can be compiled with the Microsoft C# compiler using the command line
+CCore source files typically have the file extension `.cc`. Assuming that the "Hello, World" program is stored in the file `hello.cc`, the program can be compiled with the CCore compiler using the command line
 ```
-csc hello.cs
+ccc hello.cc
 ```
 which produces an executable assembly named `hello.exe`. The output produced by this application when it is run is
 ```
 Hello, World
 ```
 
-The "Hello, World" program starts with a `using` directive that references the `System` namespace. Namespaces provide a hierarchical means of organizing C# programs and libraries. Namespaces contain types and other namespaces—for example, the `System` namespace contains a number of types, such as the `Console` class referenced in the program, and a number of other namespaces, such as `IO` and `Collections`. A `using` directive that references a given namespace enables unqualified use of the types that are members of that namespace. Because of the `using` directive, the program can use `Console.WriteLine` as shorthand for `System.Console.WriteLine`.
+The "Hello, World" program starts with a `using` directive that references the `System::Console` namespace. Namespaces provide a hierarchical means of organizing CCore programs and libraries. Namespaces contain types, functions, constants and other namespaces—for example, the `System` namespace contains a number of types, and a number of other namespaces, such as `IO` and `Collections` and the `Console` namespace referenced in the program. A `using` directive that references a given namespace enables unqualified use of the types that are members of that namespace. Because of the `using` directive, the program can use `WriteLine` as shorthand for `System::Console::WriteLine`.
 
-The `Hello` class declared by the "Hello, World" program has a single member, the method named `Main`. The `Main` method is declared with the `static` modifier. While instance methods can reference a particular enclosing object instance using the keyword `this`, static methods operate without reference to a particular object. By convention, a static method named `Main` serves as the entry point of a program.
+The "Hello, World" program has a single member, the function named `Main`. By convention, a function named `Main` serves as the entry point of a program.
 
-The output of the program is produced by the `WriteLine` method of the `Console` class in the `System` namespace. This class is provided by the .NET Framework class libraries, which, by default, are automatically referenced by the Microsoft C# compiler. Note that C# itself does not have a separate runtime library. Instead, the .NET Framework is the runtime library of C#.
+The output of the program is produced by the `WriteLine` function of the `System::Console` namespace. This function is provided by the .NET Framework class libraries, which, by default, are automatically referenced by the CCore compiler. Note that CCore itself does not have a separate runtime library. Instead, the .NET Framework is the runtime library of CCore.
 
 ## Program structure
 
-The key organizational concepts in C# are ***programs***, ***namespaces***, ***types***, ***members***, and ***assemblies***. C# programs consist of one or more source files. Programs declare types, which contain members and can be organized into namespaces. Classes and interfaces are examples of types. Fields, methods, properties, and events are examples of members. When C# programs are compiled, they are physically packaged into assemblies. Assemblies typically have the file extension `.exe` or `.dll`, depending on whether they implement ***applications*** or ***libraries***.
+The key organizational concepts in CCore are ***programs***, ***namespaces***, ***types***, ***members***, and ***assemblies***. CCore programs consist of one or more source files. Programs declare functions and types, which contain members and can be organized into namespaces. Classes and interfaces are examples of types. Fields, methods, properties, and events are examples of members. When CCore programs are compiled, they are physically packaged into assemblies. Assemblies typically have the file extension `.exe` or `.dll`, depending on whether they implement ***applications*** or ***libraries***.
 
 The example
 
 ```csharp
 using System;
 
-namespace Acme.Collections
+namespace Acme::Collections
 {
     public class Stack
     {
-        Entry top;
+        Entry? &top;
 
-        public void Push(object data) {
-            top = new Entry(top, data);
+        public void Push(object &data) {
+            top = new Entry(&top, &data);
         }
 
-        public object Pop() {
-            if (top == null) throw new InvalidOperationException();
-            object result = top.data;
-            top = top.next;
-            return result;
+        public object &Pop() {
+            if (&top == null) throw new InvalidOperationException();
+            object &result = &top.data;
+            &top = &top.next;
+            return &result;
         }
-
-        class Entry
-        {
-            public Entry next;
-            public object data;
+    }
     
-            public Entry(Entry next, object data) {
-                this.next = next;
-                this.data = data;
-            }
+    private class Entry
+    {
+        public Entry? &next;
+        public object &data;
+    
+        public Entry(Entry? &next, object &data) {
+            &this.next = &next;
+            &this.data = &data;
         }
     }
 }
 ```
-declares a class named `Stack` in a namespace called `Acme.Collections`. The fully qualified name of this class is `Acme.Collections.Stack`. The class contains several members: a field named `top`, two methods named `Push` and `Pop`, and a nested class named `Entry`. The `Entry` class further contains three members: a field named `next`, a field named `data`, and a constructor. Assuming that the source code of the example is stored in the file `acme.cs`, the command line
+declares a class named `Stack` in a namespace called `Acme::Collections`. The fully qualified name of this class is `Acme::Collections::Stack`. The class contains several members: a field named `top`, two methods named `Push` and `Pop`, and the namespace also declares a class named `Entry`. The `Entry` class further contains three members: a field named `next`, a field named `data`, and a constructor. Assuming that the source code of the example is stored in the file `acme.cc`, the command line
 
 ```
-csc /t:library acme.cs
+ccc /t:library acme.cc
 ```
 compiles the example as a library (code without a `Main` entry point) and produces an assembly named `acme.dll`.
 
 Assemblies contain executable code in the form of ***Intermediate Language*** (IL) instructions, and symbolic information in the form of ***metadata***. Before it is executed, the IL code in an assembly is automatically converted to processor-specific code by the Just-In-Time (JIT) compiler of .NET Common Language Runtime.
 
-Because an assembly is a self-describing unit of functionality containing both code and metadata, there is no need for `#include` directives and header files in C#. The public types and members contained in a particular assembly are made available in a C# program simply by referencing that assembly when compiling the program. For example, this program uses the `Acme.Collections.Stack` class from the `acme.dll` assembly:
+Because an assembly is a self-describing unit of functionality containing both code and metadata, there is no need for `#include` directives and header files in CCore. The public types and members contained in a particular assembly are made available in a CCore program simply by referencing that assembly when compiling the program. For example, this program uses the `Acme::Collections::Stack` class from the `acme.dll` assembly:
 
 ```csharp
-using System;
-using Acme.Collections;
+using System::Console;
+using Acme::Collections;
 
-class Test
-{
-    static void Main() {
-        Stack s = new Stack();
-        s.Push(1);
-        s.Push(10);
-        s.Push(100);
-        Console.WriteLine(s.Pop());
-        Console.WriteLine(s.Pop());
-        Console.WriteLine(s.Pop());
-    }
+void Main() {
+    Stack &s = new Stack();
+    s.Push(1);
+    s.Push(10);
+    s.Push(100);
+    WriteLine(s.Pop());
+    WriteLine(s.Pop());
+    WriteLine(s.Pop());
 }
 ```
-If the program is stored in the file `test.cs`, when `test.cs` is compiled, the `acme.dll` assembly can be referenced using the compiler's `/r` option:
+If the program is stored in the file `test.cc`, when `test.cc` is compiled, the `acme.dll` assembly can be referenced using the compiler's `/r` option:
 
 ```
-csc /r:acme.dll test.cs
+ccc /r:acme.dll test.cc
 ```
 This creates an executable assembly named `test.exe`, which, when run, produces the output:
 
@@ -121,33 +115,34 @@ This creates an executable assembly named `test.exe`, which, when run, produces 
 10
 1
 ```
-C# permits the source text of a program to be stored in several source files. When a multi-file C# program is compiled, all of the source files are processed together, and the source files can freely reference each other—conceptually, it is as if all the source files were concatenated into one large file before being processed. Forward declarations are never needed in C# because, with very few exceptions, declaration order is insignificant. C# does not limit a source file to declaring only one public type nor does it require the name of the source file to match a type declared in the source file.
+CCore permits the source text of a program to be stored in several source files. When a multi-file CCore program is compiled, all of the source files are processed together, and the source files can freely reference each other—conceptually, it is as if all the source files were concatenated into one large file before being processed. Forward declarations are never needed in CCore because, with very few exceptions, declaration order is insignificant. CCore does not limit a source file to declaring only one public type nor does it require the name of the source file to match a type declared in the source file.
 
 ## Types and variables
 
-There are two kinds of types in C#: ***value types*** and ***reference types***. Variables of value types directly contain their data whereas variables of reference types store references to their data, the latter being known as objects. With reference types, it is possible for two variables to reference the same object and thus possible for operations on one variable to affect the object referenced by the other variable. With value types, the variables each have their own copy of the data, and it is not possible for operations on one to affect the other (except in the case of `ref` and `out` parameter variables).
+There are two kinds of variables in CCore: ***variables of value types*** and ***variables of reference types***. Variables of value types directly contain their data whereas variables of reference types store references to their data. With reference types, it is possible for two variables to reference the same object and thus possible for operations on one variable to affect the object referenced by the other variable. With value types, the variables each have their own copy of the data, and it is not possible for operations on one to affect the other (except in the case of `&` parameters and variables).
 
-C#'s value types are further divided into ***simple types***, ***enum types***, ***struct types***, and ***nullable types***, and C#'s reference types are further divided into ***class types***, ***interface types***, ***array types***, and ***delegate types***.
+CCore's types are further divided into ***simple types***, ***enum types***, ***class types***, ***interface types***, ***array types***, ***map types***, ***tuple types***, ***funcntion types***, and ***nullable types***.
 
-The following table provides an overview of C#'s type system.
+The following table provides an overview of CCore's type system.
 
-| __Category__    |                 | __Description__ |
-|-----------------|-----------------|-----------------|
-| Value types     | Simple types    | Signed integral: `sbyte`, `short`, `int`, `long` |
-|                 |                 | Unsigned integral: `byte`, `ushort`, `uint`, `ulong` |
-|                 |                 | Unicode characters: `char` |
-|                 |                 | IEEE floating point: `float`, `double` |
-|                 |                 | High-precision decimal: `decimal` |
-|                 |                 | Boolean: `bool` |
-|                 | Enum types      | User-defined types of the form `enum E {...}` |
-|                 | Struct types    | User-defined types of the form `struct S {...}` |
-|                 | Nullable types  | Extensions of all other value types with a `null` value |
-| Reference types | Class types     | Ultimate base class of all other types: `object` |
-|                 |                 | Unicode strings: `string` |
-|                 |                 | User-defined types of the form `class C {...}` |
-|                 | Interface types | User-defined types of the form `interface I {...}` |
-|                 | Array types     | Single- and multi-dimensional, for example, `int[]` and `int[,]` |
-|                 | Delegate types  | User-defined types of the form e.g. `delegate int  D(...)` |
+| __Category__    | __Description__ |
+|-----------------|-----------------|
+| Simple types    | Signed integral: `sbyte`, `short`, `int`, `long` |
+|                 | Unsigned integral: `byte`, `ushort`, `uint`, `ulong` |
+|                 | Unicode characters: `char` |
+|                 | IEEE floating point: `float`, `double` |
+|                 | High-precision decimal: `decimal` |
+|                 | Boolean: `bool` |
+| Enum types      | User-defined types of the form `enum E {...}` |
+| Class types     | Ultimate base class of all other types: `object` |
+|                 | Unicode strings: `string` |
+|                 | User-defined types of the form `class C {...}` |
+| Interface types | User-defined types of the form `interface I {...}` |
+| Array types     | Single- and multi-dimensional, for example, `int[]` and `int[,]` |
+| Map types       | Map from a value to other value, for example, `double[int]` |
+| Tuple types     | Fixed set of types, for example, `(int, decimal, bool)` |
+| Function types  | Function or method types of the form e.g. `bool(int, double)` |
+| Nullable types  | Extensions of all other types with a `null` value |
 
 The eight integral types provide support for 8-bit, 16-bit, 32-bit, and 64-bit values in signed or unsigned form.
 
@@ -155,11 +150,11 @@ The two floating point types, `float` and `double`, are represented using the 32
 
 The `decimal` type is a 128-bit data type suitable for financial and monetary calculations.
 
-C#'s `bool` type is used to represent boolean values—values that are either `true` or `false`.
+CCore's `bool` type is used to represent boolean values—values that are either `true` or `false`.
 
-Character and string processing in C# uses Unicode encoding. The `char` type represents a UTF-16 code unit, and the `string` type represents a sequence of UTF-16 code units.
+Character and string processing in CCore uses Unicode encoding. The `char` type represents a UTF-16 code unit, and the `string` type represents a sequence of UTF-16 code units.
 
-The following table summarizes C#'s numeric types.
+The following table summarizes CCore's numeric types.
 
 
 | __Category__      | __Bits__ | __Type__  | __Range/Precision__ |
@@ -176,25 +171,23 @@ The following table summarizes C#'s numeric types.
 |                   | 64       | `double`  | 5.0 × 10^−324 to 1.7 × 10^308, 15-digit precision |
 | Decimal           | 128      | `decimal` | 1.0 × 10^−28 to 7.9 × 10^28, 28-digit precision |
 
-C# programs use ***type declarations*** to create new types. A type declaration specifies the name and the members of the new type. Five of C#'s categories of types are user-definable: class types, struct types, interface types, enum types, and delegate types.
+CCore programs use ***type declarations*** to create new types. A type declaration specifies the name and the members of the new type. Three of CCore's categories of types are user-definable: class types, interface types, and enum types.
 
-A class type defines a data structure that contains data members (fields) and function members (methods, properties, and others). Class types support single inheritance and polymorphism, mechanisms whereby derived classes can extend and specialize base classes.
+A class type defines a data structure that contains data members (fields) and function members (methods, properties, and others). Class types support single inheritance and polymorphism, mechanisms whereby derived classes can extend and specialize base classes. Classes can be used as value types or as refernce types that require heap allocation.
 
-A struct type is similar to a class type in that it represents a structure with data members and function members. However, unlike classes, structs are value types and do not require heap allocation. Struct types do not support user-specified inheritance, and all struct types implicitly inherit from type `object`.
+An interface type defines a contract as a named set of public function members. A class that implements an interface must provide implementations of the interface's function members. An interface may inherit from multiple base interfaces, and a class may implement multiple interfaces.
 
-An interface type defines a contract as a named set of public function members. A class or struct that implements an interface must provide implementations of the interface's function members. An interface may inherit from multiple base interfaces, and a class or struct may implement multiple interfaces.
+A function type represents references to methods or functions with a particular parameter list and return type. Function types make it possible to treat methods or functions as entities that can be assigned to variables and passed as parameters. Function types are similar to the concept of function pointers found in some other languages, but unlike function pointers, function types are object-oriented and type-safe.
 
-A delegate type represents references to methods with a particular parameter list and return type. Delegates make it possible to treat methods as entities that can be assigned to variables and passed as parameters. Delegates are similar to the concept of function pointers found in some other languages, but unlike function pointers, delegates are object-oriented and type-safe.
-
-Class, struct, interface and delegate types all support generics, whereby they can be parameterized with other types.
+Class and interface types all support generics, whereby they can be parameterized with other types.
 
 An enum type is a distinct type with named constants. Every enum type has an underlying type, which must be one of the eight integral types. The set of values of an enum type is the same as the set of values of the underlying type.
 
-C# supports single- and multi-dimensional arrays of any type. Unlike the types listed above, array types do not have to be declared before they can be used. Instead, array types are constructed by following a type name with square brackets. For example, `int[]` is a single-dimensional array of `int`, `int[,]` is a two-dimensional array of `int`, and `int[][]` is a single-dimensional array of single-dimensional arrays of `int`.
+CCore supports single- and multi-dimensional arrays of any type. Unlike the types listed above, array types do not have to be declared before they can be used. Instead, array types are constructed by following a type name with square brackets. For example, `int[]` is a single-dimensional array of `int`, `int[,]` is a two-dimensional array of `int`, and `int[][]` is a single-dimensional array of single-dimensional arrays of `int`.
 
 Nullable types also do not have to be declared before they can be used. For each non-nullable value type `T` there is a corresponding nullable type `T?`, which can hold an additional value `null`. For instance, `int?` is a type that can hold any 32 bit integer or the value `null`.
 
-C#'s type system is unified such that a value of any type can be treated as an object. Every type in C# directly or indirectly derives from the `object` class type, and `object` is the ultimate base class of all types. Values of reference types are treated as objects simply by viewing the values as type `object`. Values of value types are treated as objects by performing ***boxing*** and ***unboxing*** operations. In the following example, an `int` value is converted to `object` and back again to `int`.
+CCore's type system is unified such that a value of any type can be treated as an object. Every type in CCore directly or indirectly derives from the `object` class type, and `object` is the ultimate base class of all types. Values of reference types are treated as objects simply by viewing the values as type `object`. Values of value types are treated as objects by performing ***boxing*** and ***unboxing*** operations. In the following example, an `int` value is converted to `object` and back again to `int`.
 
 ```csharp
 using System;
