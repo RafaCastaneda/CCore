@@ -330,25 +330,6 @@ The `object` class type is the ultimate base class of all other types. Every typ
 
 The keyword `object` is simply an alias for the predefined class `System.Object`.
 
-### The dynamic type
-
-The `dynamic` type, like `object`, can reference any object. When operators are applied to expressions of type `dynamic`, their resolution is deferred until the program is run. Thus, if the operator cannot legally be applied to the referenced object, no error is given during compilation. Instead an exception will be thrown when resolution of the operator fails at run-time.
-
-Its purpose is to allow dynamic binding, which is described in detail in [Dynamic binding](expressions.md#dynamic-binding).
-
-`dynamic` is considered identical to `object` except in the following respects:
-
-*  Operations on expressions of type `dynamic` can be dynamically bound ([Dynamic binding](expressions.md#dynamic-binding)).
-*  Type inference ([Type inference](expressions.md#type-inference)) will prefer `dynamic` over `object` if both are candidates.
-
-Because of this equivalence, the following holds:
-
-*  There is an implicit identity conversion between `object` and `dynamic`, and between constructed types that are the same when replacing `dynamic` with `object`
-*  Implicit and explicit conversions to and from `object` also apply to and from `dynamic`.
-*  Method signatures that are the same when replacing `dynamic` with `object` are considered the same signature
-*  The type `dynamic` is indistinguishable from `object` at run-time.
-*  An expression of the type `dynamic` is referred to as a ***dynamic expression***.
-
 ### The string type
 
 The `string` type is a sealed class type that inherits directly from `object`. Instances of the `string` class represent Unicode character strings.
