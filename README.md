@@ -1,7 +1,5 @@
 # CCore Programming Language
 
-[![Join the chat at https://gitter.im/ccore-lang/Lobby](https://badges.gitter.im/ccore-lang/Lobby.svg)](https://gitter.im/ccore-lang/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 CCore is a programming language for .NET Core
 
 ## Features
@@ -28,3 +26,6 @@ Value ADTs and pattern-matching.
 ## Objective
 
 To experiment how all this features work together to make a middle level (lower level than C# but not native) and convenient language, so as to be applicable for high performance networking and web services, games, low latency audio synthesis, signal processing, scientific computing, etcetera.
+
+[![Join the chat at https://gitter.im/ccore-lang/Lobby](https://badges.gitter.im/ccore-lang/Lobby.svg)](https://gitter.im/ccore-lang/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
