@@ -93,7 +93,10 @@ module System::Math
 {
     public func float Sqrt(float x) { ... }
 
-    internal class Config { ... }
+    internal class Configuration
+    {
+        ...
+    }
 
     private func void Helper() { ... }
 }
