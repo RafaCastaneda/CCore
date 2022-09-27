@@ -86,7 +86,7 @@ func void Main() {
 
 ## Access modifiers
 
-Items in modules can have three access levels: `public`, `internal`, and `private`. When no access level is specified, it defaults to `internal`. `private` is accessible only inside the module, `internal` anywhere inside the assembly, and `public` everywhere.
+Items in modules can have three access levels: `public`, `internal`, and `private`. When no access level is specified, it defaults to `private`. `private` is accessible only inside the module, `internal` anywhere inside the assembly, and `public` everywhere.
 
 ```cs
 module System::Math
@@ -124,7 +124,3 @@ func void Main() {
     double x = Sin(angle);
 }
 ```
-
-### Open issues:
-
-1. Research OCaml first-class module system.
