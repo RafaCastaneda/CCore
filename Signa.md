@@ -6,8 +6,7 @@
 
 ### Consonantes
 
-`'` : Separación silábica, no suena. Ejemplo: `equ'o` (caballo)
-
+`'` : Separación silábica, no suena. Ejemplo: `equ'o` (caballo)<br/>
 `b` : Como en **b**arco o **v**aca. Ejemplo: `bonu` (bueno).
 
 `c` : Como en **ch**ocolate o **ch**elo. Eejmplo: `coqo` (chocolate).
