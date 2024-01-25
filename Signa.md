@@ -18,9 +18,9 @@
 `n` : Como en **n**iño. Ejemplo: `nımbo` (niebla).<br/>
 `p` : Como en **p**adre. Ejemplo: `pater` (padre).<br/>
 `q` : Como en **c**asa, **k**ilo o **qu**eso. Ejemplo: `qato` (gato).<br/>
-`r` : Como en **r**atón o ca**rr**o. Ejemplo: `qure` (correr).<br/>
-`ɾ` : Como en pe**r**a. Ejemplo: `qaɾe` (amar).<br/>
+`r` : Como en pe**r**a. Ejemplo: `qare` (amar).<br/>
+`ɹ` : Como en **r**atón o ca**rr**o. Ejemplo: `quɹe` (correr).<br/>
 `s` : Como en **s**aco o **c**ielo. Ejemplo: `somne` (dormir).<br/>
-`t` : Como en **t**aco. Ejemplo: `tauɾo` (toro).<br/>
+`t` : Como en **t**aco. Ejemplo: `tauro` (toro).<br/>
 `x` : Como en **J**avier, **g**ema o Mé**x**ico. Ejemplo: `xarta` (papel).<br/>
 `z` : Como en **z**orro en pronunciación española, o "**ds**" . Ejemplo: `ze'o` (Dios).
